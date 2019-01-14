@@ -13,6 +13,7 @@ pool:
 
 variables:
   editorMotionControllerSolution: 'EditorMotionControllerDLL/EditorMotionController.sln'
+  gpuStatsSolution: 'GpuStats/GpuStats.sln'
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
 
@@ -22,11 +23,16 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(editorMotionControllerSolution)'
+     
+- task: VSBuild@1
+  inputs:
+    solution: '$(gpuStatsSolution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 - task: VSBuild@1
   inputs:
     solution: '$(editorMotionControllerSolution)'
-    msbuildArgs: '/ZW /EHsc'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
