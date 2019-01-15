@@ -22,17 +22,11 @@ steps:
 
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(editorMotionControllerSolution)'
+    restoreSolution: '$(gpuStatsSolution)'
      
 - task: VSBuild@1
   inputs:
     solution: '$(gpuStatsSolution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(editorMotionControllerSolution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
