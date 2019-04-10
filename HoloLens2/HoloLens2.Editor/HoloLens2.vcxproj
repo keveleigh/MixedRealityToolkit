@@ -24,7 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>HoloLens2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
-    <ProjectName>HoloLens2</ProjectName>
+    <ProjectName>HoloLens2.Editor</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -158,18 +158,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="HoloLens2.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HoloLens2.rc" />
