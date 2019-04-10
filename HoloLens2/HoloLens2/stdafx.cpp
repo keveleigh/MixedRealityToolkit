@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 // stdafx.cpp : source file that includes just the standard includes
-// EditorMotionController.pch will be the pre-compiled header
+// HoloLens2.pch will be the pre-compiled header
 // stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"

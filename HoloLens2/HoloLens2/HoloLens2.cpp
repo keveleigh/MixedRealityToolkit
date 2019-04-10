@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// EditorMotionController.cpp : Defines the exported functions for the DLL application.
+// HoloLens2.cpp : Defines the exported functions for the DLL application.
 
 #include "stdafx.h"
 

@@ -32,12 +32,12 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EditorMotionController.cpp">
+    <ClCompile Include="HoloLens2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="EditorMotionController.rc">
+    <ResourceCompile Include="HoloLens2.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
