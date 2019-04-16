@@ -7,4 +7,8 @@
 #endif
 
 #include <windows.h>
+#include <unknwn.h>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Globalization.h>
+#include <winrt/Windows.Perception.h>
+#include <winrt/Windows.UI.Input.Spatial.h>

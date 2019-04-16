@@ -6,4 +6,10 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MotionControllerEditor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MotionControllerEditor.h" />
+  </ItemGroup>
 </Project>
