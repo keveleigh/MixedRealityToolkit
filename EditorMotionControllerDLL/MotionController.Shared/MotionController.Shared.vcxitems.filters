@@ -9,24 +9,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MotionController.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)MotionController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)MotionController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MotionController.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
