@@ -10,7 +10,7 @@ using namespace Windows::Perception;
 using namespace Windows::Storage::Streams;
 using namespace Windows::UI::Input::Spatial;
 
-EXTERN_C __declspec(dllexport) uint32_t TryGetMotionControllerModel()
+EXTERN_C __declspec(dllexport) uint32_t GetSourceCount()
 {
 	SpatialInteractionManager spatialInteractionManager = TryGetSpatialInteractionManager();
 
