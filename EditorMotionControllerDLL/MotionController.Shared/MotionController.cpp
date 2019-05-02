@@ -6,6 +6,7 @@
 
 using namespace winrt;
 using namespace Windows::Foundation;
+using namespace Windows::Foundation::Metadata;
 using namespace Windows::Perception;
 using namespace Windows::Storage::Streams;
 using namespace Windows::UI::Input::Spatial;
@@ -28,8 +29,17 @@ EXTERN_C __declspec(dllexport) uint32_t GetSourceCount()
 	return 1000;
 }
 
-EXTERN_C __declspec(dllexport) BOOL TryGetMotionControllerModel(_In_ UINT32 controllerId, _Out_ UINT32& outputSize, _Outptr_result_bytebuffer_(outputSize) BYTE& outputBuffer)
+EXTERN_C __declspec(dllexport) BOOL TryGetMotionControllerModel(
+	_In_ UINT32 controllerId,
+	_Out_ UINT32& outputSize,
+	_Outptr_result_bytebuffer_(outputSize) BYTE*& outputBuffer)
 {
+
+	if (!ApiInformation::IsApiContractPresent(L"Windows.Foundation.UniversalApiContract", 5))
+	{
+		return FALSE;
+	}
+
     SpatialInteractionSource source = GetSpatialInteractionSource(controllerId);
 
     if (source != nullptr)
@@ -38,7 +48,7 @@ EXTERN_C __declspec(dllexport) BOOL TryGetMotionControllerModel(_In_ UINT32 cont
         IAsyncOperation<IRandomAccessStreamWithContentType> modelOperation;
         try
         {
-            modelOperation = source.Controller.TryGetRenderableModelAsync();
+            modelOperation = source.Controller().TryGetRenderableModelAsync();
         }
         catch (...)
         {
@@ -48,35 +58,32 @@ EXTERN_C __declspec(dllexport) BOOL TryGetMotionControllerModel(_In_ UINT32 cont
         IRandomAccessStreamWithContentType stream = modelOperation.get();
 
         // If the model call failed or the resulting stream is empty, return.
-        if (stream == nullptr || stream.Size == 0)
+        if (stream == nullptr || stream.Size() == 0)
         {
             return FALSE;
         }
 
-        // Create a buffer from the stream, to read the contents into a byte array to pass back to the app.
-        unsigned int streamSize = (unsigned int)stream.Size;
-		IAsyncOperationWithProgress<IBuffer, uint32_t> readOperation = stream.ReadAsync(Buffer(streamSize), streamSize, InputStreamOptions::None);
+		uint32_t streamSize = static_cast<uint32_t>(stream.Size());
 
-        IBuffer buffer = readOperation.get();
+		std::vector<BYTE> fileBytes(streamSize);
 
-		// If the model call failed or the resulting stream is empty, return.
-		if (buffer == nullptr || buffer.Length == 0)
+		// Now, create a DataReader from the stream, which can then transfer the bytes into a byte array.
+		DataReader reader = DataReader(stream);
+		reader.LoadAsync(streamSize).get();
+		reader.ReadBytes(fileBytes);
+
+		outputSize = streamSize;
+
+		//outputBuffer = fileBytes.data();
+
+		outputBuffer = new BYTE[outputSize];
+
+		for (uint32_t i = 0; i < outputSize; i++)
 		{
-			return FALSE;
+			outputBuffer[i] = fileBytes[i];
 		}
 
-        //if (status != task_status::completed)
-        //{
-        //    return FALSE;
-        //}
-
-        outputSize = buffer.Length;
-
-        // Now, create a DataReader from the buffer, which can then transfer the bytes into a byte array.
-        DataReader reader = DataReader::FromBuffer(buffer);
-		std::array<BYTE, buffer.Length> test;
-        outputBuffer = test;
-		reader.ReadBytes({ outputBuffer });
+		/*reader->ReadBytes(Platform::ArrayReference<BYTE>(outputBuffer, outputSize));*/
 
         return TRUE;
     }

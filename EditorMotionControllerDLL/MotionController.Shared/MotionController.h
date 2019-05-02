@@ -8,3 +8,4 @@
 using namespace winrt::Windows::UI::Input::Spatial;
 
 SpatialInteractionManager TryGetSpatialInteractionManager();
+SpatialInteractionSource GetSpatialInteractionSource(UINT32 controllerId);
