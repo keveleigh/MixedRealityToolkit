@@ -9,28 +9,39 @@ trigger:
 pr: none
 
 pool:
-  vmImage: 'VS2017-Win2016'
+  vmImage: 'windows-2019'
 
 variables:
-  editorMotionControllerSolution: 'EditorMotionControllerDLL/EditorMotionController.sln'
-  gpuStatsSolution: 'GpuStats/GpuStats.sln'
-  buildPlatform: 'x64'
-  buildConfiguration: 'Release'
+  PlaneFindingSolution: 'SpatialMapping/PlaneFinding/PlaneFinding.sln'
+  BuildPlatform: 'x86'
+  BuildConfiguration: 'Release'
 
 steps:
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(gpuStatsSolution)'
+    restoreSolution: '$(PlaneFindingSolution)'
      
 - task: VSBuild@1
   inputs:
-    solution: '$(gpuStatsSolution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    solution: '$(PlaneFindingSolution)'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
 
 - task: VSTest@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+
+- task: CopyFiles@2
+  displayName: 'Copy x86 binaries to artifacts staging directory'
+  inputs:
+    sourceFolder: $(Build.SourcesDirectory)/SpatialMapping/PlaneFinding/Release
+    contents: '**/*.dll'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  inputs:
+    artifactName: Binaries
