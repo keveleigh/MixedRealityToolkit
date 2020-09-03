@@ -11,11 +11,12 @@ pr: none
 variables:
   # ${{ if eq( variables['Project'], 'PlaneFinding' ) }}:
     # SolutionPath: 'SpatialMapping/PlaneFinding/PlaneFinding.sln'
+  Project: 'PlaneFinding'
   SolutionPath: 'SpatialMapping/PlaneFinding/PlaneFinding.sln'
   BuildConfiguration: 'Release'
 
 jobs:
-- job:
+- job: Build
   pool:
     vmImage: 'windows-2019'
   workspace:
@@ -60,22 +61,3 @@ jobs:
     displayName: 'Publish artifacts'
     inputs:
       artifactName: $(Project)
-
-# - job:
-#   dependsOn: x86
-#   steps:
-#   - task: VSTest@2
-#     inputs:
-#       configuration: '$(BuildConfiguration)'
-
-  # - task: CopyFiles@2
-  #   displayName: 'Copy x86 binaries to artifacts staging directory'
-  #   inputs:
-  #     sourceFolder: $(Build.SourcesDirectory)/SpatialMapping/PlaneFinding/Release
-  #     contents: '**/*.dll'
-  #     targetFolder: $(Build.ArtifactStagingDirectory)
-
-  # - task: PublishBuildArtifacts@1
-  #   displayName: 'Publish artifacts'
-  #   inputs:
-  #     artifactName: Binaries
