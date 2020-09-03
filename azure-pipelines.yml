@@ -9,8 +9,9 @@ trigger:
 pr: none
 
 variables:
-  ${{ if eq( variables['Project'], 'PlaneFinding' ) }}: 
-    SolutionPath: 'SpatialMapping/PlaneFinding/PlaneFinding.sln'
+  # ${{ if eq( variables['Project'], 'PlaneFinding' ) }}:
+    # SolutionPath: 'SpatialMapping/PlaneFinding/PlaneFinding.sln'
+  SolutionPath: 'SpatialMapping/PlaneFinding/PlaneFinding.sln'
   BuildConfiguration: 'Release'
 
 jobs:
@@ -55,6 +56,7 @@ jobs:
       artifactName: Binaries
 
 - job:
+  dependsOn: x86
   steps:
   - task: VSTest@2
     inputs:
