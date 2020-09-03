@@ -43,6 +43,12 @@ jobs:
       platform: '$(BuildPlatform)'
       configuration: '$(BuildConfiguration)'
 
+  - task: VSTest@2
+    condition: and(succeeded(), eq(variables['BuildPlatform'], 'x86'))
+    inputs:
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
+
   - task: CopyFiles@2
     displayName: 'Copy x86 binaries to artifacts staging directory'
     inputs:
@@ -55,12 +61,12 @@ jobs:
     inputs:
       artifactName: Binaries
 
-- job:
-  dependsOn: x86
-  steps:
-  - task: VSTest@2
-    inputs:
-      configuration: '$(BuildConfiguration)'
+# - job:
+#   dependsOn: x86
+#   steps:
+#   - task: VSTest@2
+#     inputs:
+#       configuration: '$(BuildConfiguration)'
 
   # - task: CopyFiles@2
   #   displayName: 'Copy x86 binaries to artifacts staging directory'
