@@ -50,7 +50,7 @@ jobs:
       configuration: '$(BuildConfiguration)'
 
   - task: CopyFiles@2
-    displayName: 'Copy x86 binaries to artifacts staging directory'
+    displayName: 'Copy binaries to artifacts staging directory'
     inputs:
       sourceFolder: $(Build.SourcesDirectory)/SpatialMapping/PlaneFinding/Release
       contents: '**/*.dll'
@@ -59,7 +59,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish artifacts'
     inputs:
-      artifactName: Binaries
+      artifactName: $(Project)
 
 # - job:
 #   dependsOn: x86
