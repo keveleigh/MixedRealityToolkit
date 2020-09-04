@@ -20,7 +20,7 @@ class Query;
 using QueryPtr = shared_ptr<Query>;
 using QueryDequePtr = shared_ptr<deque<QueryPtr>> ;
 
-static UnityGfxRenderer s_DeviceType = kUnityGfxRendererNull;
+static UnityGfxRenderer s_DeviceType = UnityGfxRenderer::kUnityGfxRendererNull;
 static IUnityInterfaces* s_UnityInterfaces = nullptr;
 static IUnityGraphics* s_Graphics = nullptr;
 
@@ -42,7 +42,7 @@ static mutex memInfoAdapterSync;
 static IDXGIAdapter3* s_Adapter = nullptr;
 #endif
 
-enum QueryState
+enum class QueryState
 {
 	Unknown,
 	BeginSubmitted,
@@ -181,7 +181,7 @@ extern "C" void	UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnit
 
 	// Run OnGraphicsDeviceEvent(initialize) manually on plugin load
 	// to not miss the event in case the graphics device is already initialized.
-	OnGraphicsDeviceEvent(kUnityGfxDeviceEventInitialize);
+	OnGraphicsDeviceEvent(UnityGfxDeviceEventType::kUnityGfxDeviceEventInitialize);
 }
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginUnload()
@@ -265,10 +265,10 @@ static void UpdateFrameTime()
 static void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType eventType)
 {
 	// Create graphics API implementation upon initialization
-	if (eventType == kUnityGfxDeviceEventInitialize)
+	if (eventType == UnityGfxDeviceEventType::kUnityGfxDeviceEventInitialize)
 	{
 		s_DeviceType = s_Graphics->GetRenderer();
-		if (s_DeviceType == kUnityGfxRendererD3D11)
+		if (s_DeviceType == UnityGfxRenderer::kUnityGfxRendererD3D11)
 		{
 			// D3D11 is the only API supported
 			IUnityGraphicsD3D11* d3d = s_UnityInterfaces->Get<IUnityGraphicsD3D11>();
@@ -299,9 +299,9 @@ static void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType ev
 #endif
 		}
 	}
-	else if (eventType == kUnityGfxDeviceEventShutdown)
+	else if (eventType == UnityGfxDeviceEventType::kUnityGfxDeviceEventShutdown)
 	{
-		s_DeviceType = kUnityGfxRendererNull;
+		s_DeviceType = UnityGfxRenderer::kUnityGfxRendererNull;
 #ifdef _WIN32_WINNT_WIN10
 		if (s_Adapter != nullptr)
 		{

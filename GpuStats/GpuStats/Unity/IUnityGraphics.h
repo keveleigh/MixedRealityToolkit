@@ -1,7 +1,7 @@
 #pragma once
 #include "IUnityInterface.h"
 
-typedef enum UnityGfxRenderer
+typedef enum class UnityGfxRenderer
 {
 	kUnityGfxRendererOpenGL            =  0, // Legacy OpenGL
 	kUnityGfxRendererD3D9              =  1, // Direct3D 9
@@ -19,7 +19,7 @@ typedef enum UnityGfxRenderer
 	kUnityGfxRendererD3D12             = 18, // Direct3D 12
 } UnityGfxRenderer;
 
-typedef enum UnityGfxDeviceEventType
+typedef enum class UnityGfxDeviceEventType
 {
 	kUnityGfxDeviceEventInitialize     = 0,
 	kUnityGfxDeviceEventShutdown       = 1,
@@ -35,15 +35,13 @@ UNITY_DECLARE_INTERFACE(IUnityGraphics)
 	UnityGfxRenderer (UNITY_INTERFACE_API * GetRenderer)(); // Thread safe
 
 	// This callback will be called when graphics device is created, destroyed, reset, etc.
-	// It is possible to miss the kUnityGfxDeviceEventInitialize event in case plugin is loaded at a later time,
+	// It is possible to miss the kUnityGfxDeviceEventInitialize event in case plug-in is loaded at a later time,
 	// when the graphics device is already created.
 	void (UNITY_INTERFACE_API * RegisterDeviceEventCallback)(IUnityGraphicsDeviceEventCallback callback);
 	void (UNITY_INTERFACE_API * UnregisterDeviceEventCallback)(IUnityGraphicsDeviceEventCallback callback);
 };
 UNITY_REGISTER_INTERFACE_GUID(0x7CBA0A9CA4DDB544ULL,0x8C5AD4926EB17B11ULL,IUnityGraphics)
 
-
-
-// Certain Unity APIs (GL.IssuePluginEvent, CommandBuffer.IssuePluginEvent) can callback into native plugins.
+// Certain Unity APIs (GL.IssuePluginEvent, CommandBuffer.IssuePluginEvent) can callback into native plug-ins.
 // Provide them with an address to a function of this signature.
 typedef void (UNITY_INTERFACE_API * UnityRenderingEvent)(int eventId);
