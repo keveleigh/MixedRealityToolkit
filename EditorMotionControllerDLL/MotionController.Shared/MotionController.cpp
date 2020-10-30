@@ -13,32 +13,32 @@ using namespace Windows::UI::Input::Spatial;
 
 EXTERN_C __declspec(dllexport) uint32_t GetSourceCount()
 {
-	SpatialInteractionManager spatialInteractionManager = TryGetSpatialInteractionManager();
+    SpatialInteractionManager spatialInteractionManager = TryGetSpatialInteractionManager();
 
-	if (spatialInteractionManager != nullptr)
-	{
-		// Get the current PerceptionTimestamp. This will be used to get the currently detected spatial sources.
-		PerceptionTimestamp perceptionTimestamp = PerceptionTimestampHelper::FromHistoricalTargetTime(clock::now());
+    if (spatialInteractionManager != nullptr)
+    {
+        // Get the current PerceptionTimestamp. This will be used to get the currently detected spatial sources.
+        PerceptionTimestamp perceptionTimestamp = PerceptionTimestampHelper::FromHistoricalTargetTime(clock::now());
 
-		// Get the currently detected spatial sources.
-		auto sources = spatialInteractionManager.GetDetectedSourcesAtTimestamp(perceptionTimestamp);
+        // Get the currently detected spatial sources.
+        auto sources = spatialInteractionManager.GetDetectedSourcesAtTimestamp(perceptionTimestamp);
 
-		return sources.Size();
-	}
+        return sources.Size();
+    }
 
-	return 1000;
+    return 1000;
 }
 
 EXTERN_C __declspec(dllexport) BOOL TryGetMotionControllerModel(
-	_In_ UINT32 controllerId,
-	_Out_ UINT32& outputSize,
-	_Outptr_result_bytebuffer_(outputSize) BYTE*& outputBuffer)
+    _In_ UINT32 controllerId,
+    _Out_ UINT32& outputSize,
+    _Outptr_result_bytebuffer_(outputSize) BYTE*& outputBuffer)
 {
 
-	if (!ApiInformation::IsApiContractPresent(L"Windows.Foundation.UniversalApiContract", 5))
-	{
-		return FALSE;
-	}
+    if (!ApiInformation::IsApiContractPresent(L"Windows.Foundation.UniversalApiContract", 5))
+    {
+        return FALSE;
+    }
 
     SpatialInteractionSource source = GetSpatialInteractionSource(controllerId);
 
@@ -63,27 +63,27 @@ EXTERN_C __declspec(dllexport) BOOL TryGetMotionControllerModel(
             return FALSE;
         }
 
-		uint32_t streamSize = static_cast<uint32_t>(stream.Size());
+        uint32_t streamSize = static_cast<uint32_t>(stream.Size());
 
-		std::vector<BYTE> fileBytes(streamSize);
+        std::vector<BYTE> fileBytes(streamSize);
 
-		// Now, create a DataReader from the stream, which can then transfer the bytes into a byte array.
-		DataReader reader = DataReader(stream);
-		reader.LoadAsync(streamSize).get();
-		reader.ReadBytes(fileBytes);
+        // Now, create a DataReader from the stream, which can then transfer the bytes into a byte array.
+        DataReader reader = DataReader(stream);
+        reader.LoadAsync(streamSize).get();
+        reader.ReadBytes(fileBytes);
 
-		outputSize = streamSize;
+        outputSize = streamSize;
 
-		//outputBuffer = fileBytes.data();
+        //outputBuffer = fileBytes.data();
 
-		outputBuffer = new BYTE[outputSize];
+        outputBuffer = new BYTE[outputSize];
 
-		for (uint32_t i = 0; i < outputSize; i++)
-		{
-			outputBuffer[i] = fileBytes[i];
-		}
+        for (uint32_t i = 0; i < outputSize; i++)
+        {
+            outputBuffer[i] = fileBytes[i];
+        }
 
-		/*reader->ReadBytes(Platform::ArrayReference<BYTE>(outputBuffer, outputSize));*/
+        /*reader->ReadBytes(Platform::ArrayReference<BYTE>(outputBuffer, outputSize));*/
 
         return TRUE;
     }
@@ -93,7 +93,7 @@ EXTERN_C __declspec(dllexport) BOOL TryGetMotionControllerModel(
 
 SpatialInteractionSource GetSpatialInteractionSource(UINT32 controllerId)
 {
-	SpatialInteractionManager spatialInteractionManager = TryGetSpatialInteractionManager();
+    SpatialInteractionManager spatialInteractionManager = TryGetSpatialInteractionManager();
 
     if (spatialInteractionManager != nullptr)
     {
